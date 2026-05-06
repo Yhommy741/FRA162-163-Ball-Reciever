@@ -34,7 +34,6 @@
 #define LCD_RW            0x02
 #define LCD_RS            0x01
 
-// แสดง "Stopped" กี่ ms ก่อนกลับ READY
 #define STOPPED_HOLD_MS   1500
 /* USER CODE END PD */
 
@@ -50,13 +49,11 @@ float Tracking_Error = 0.0f;
 typedef enum {
 	APP_READY = 0,
 	APP_SELECT,
-	APP_RUNNING,        // ⬅️ ลบ APP_STARTING และ APP_STOPPING ออก
+	APP_RUNNING,
 	APP_STOPPED
 } AppState_t;
 
 static AppState_t app_state = APP_READY;
-
-// RPM ที่เลือก (integer 3-10)
 static uint8_t rpm_selected = RPM_DEFAULT;
 
 static int16_t last_enc_count = 0;
@@ -197,12 +194,10 @@ static void Display_Running(float current_rpm, uint8_t target_rpm) {
 	if (meas < 0) meas = -meas;
 	if (meas > 99.9f) meas = 99.9f;
 
-	// แยกส่วน integer + ทศนิยม 1 ตำแหน่ง (×10 แล้วใช้ integer math)
-	uint16_t meas_x10 = (uint16_t)(meas * 10.0f + 0.5f);  // ปัดเศษ
-	uint8_t  meas_int  = meas_x10 / 10;                    // หน่วย
-	uint8_t  meas_frac = meas_x10 % 10;                    // ทศนิยม
+	uint16_t meas_x10 = (uint16_t)(meas * 10.0f + 0.5f);
+	uint8_t  meas_int  = meas_x10 / 10;
+	uint8_t  meas_frac = meas_x10 % 10;
 
-	// Format: "X.Y/ Z RPM     " (current ทศนิยม, target integer)
 	snprintf(line1, sizeof(line1), "%2u.%u/%2u RPM    ",
 			meas_int, meas_frac, target_rpm);
 
@@ -283,7 +278,7 @@ static void App_Tick(void) {
 
 	// ============================================================
 	case APP_READY:
-		// กดสั้น → เข้า SELECT
+
 		if (sp) {
 			blink_tick = now;
 			blink_on = 1;
@@ -294,13 +289,12 @@ static void App_Tick(void) {
 
 	// ============================================================
 	case APP_SELECT:
-		// กระพริบเลข RPM
+
 		if (now - blink_tick >= 350) {
 			blink_tick = now;
 			blink_on ^= 1;
 			Display_Select(rpm_selected, blink_on);
 		}
-		// หมุน encoder = ปรับ RPM
 		if (enc != 0) {
 			int8_t v = (int8_t) rpm_selected + enc;
 			if (v < RPM_MIN) v = RPM_MAX;
@@ -310,9 +304,9 @@ static void App_Tick(void) {
 			blink_tick = now;
 			Display_Select(rpm_selected, 1);
 		}
-		// 🚀 กดค้าง = START ทันที (ไม่มี APP_STARTING / 800ms delay)
+
 		if (lp) {
-			target_RPM = (float) rpm_selected;     // ⬅️ พุ่ง target ทันที
+			target_RPM = (float) rpm_selected;
 			app_state = APP_RUNNING;
 			Display_Running(BallReciever.RPM, rpm_selected);
 		}
@@ -323,9 +317,8 @@ static void App_Tick(void) {
 		if (do_refresh) {
 			Display_Running(BallReciever.RPM, rpm_selected);
 		}
-		// 🛑 กดค้าง = STOP ทันที (ไม่มี ramp-down)
 		if (lp) {
-			target_RPM = 0.0f;                     // ⬅️ ตัดเป็น 0 ทันที
+			target_RPM = 0.0f;
 			state_enter_tick = now;
 			app_state = APP_STOPPED;
 			Display_Stopped();
@@ -334,7 +327,6 @@ static void App_Tick(void) {
 
 	// ============================================================
 	case APP_STOPPED:
-		// แสดง "Stopped" สักครู่ → กลับ READY
 		if (now - state_enter_tick >= STOPPED_HOLD_MS) {
 			app_state = APP_READY;
 			Display_Ready();
