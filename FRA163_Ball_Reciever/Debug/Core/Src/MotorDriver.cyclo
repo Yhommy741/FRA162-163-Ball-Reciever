@@ -1,0 +1,4 @@
+../Core/Src/MotorDriver.c:10:6:MotorDriver_init	1
+../Core/Src/MotorDriver.c:24:6:MotorDriver_write	5
+../Core/Src/MotorDriver.c:46:6:MotorDriver_enable	1
+../Core/Src/MotorDriver.c:51:6:MotorDriver_disable	1

@@ -1,0 +1,4 @@
+../Core/Src/MotorDriver.c:10:6:MotorDriver_init	16	static
+../Core/Src/MotorDriver.c:24:6:MotorDriver_write	24	static
+../Core/Src/MotorDriver.c:46:6:MotorDriver_enable	16	static
+../Core/Src/MotorDriver.c:51:6:MotorDriver_disable	16	static

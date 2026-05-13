@@ -1,0 +1,4 @@
+../Core/Src/Trajectory.c:10:6:Trajectory_Init	16	static
+../Core/Src/Trajectory.c:16:6:Trajectory_Start	16	static
+../Core/Src/Trajectory.c:21:6:Trajectory_Stop	16	static
+../Core/Src/Trajectory.c:26:6:Trajectory_Update	24	static

@@ -1,0 +1,11 @@
+../Core/Src/RevRobot1DOF.c:17:6:RevRobot1DOF_init	1
+../Core/Src/RevRobot1DOF.c:36:6:RevRobot1DOF_init_Motor	1
+../Core/Src/RevRobot1DOF.c:46:6:RevRobot1DOF_init_Encoder	2
+../Core/Src/RevRobot1DOF.c:56:6:RevRobot1DOF_init_Filter	1
+../Core/Src/RevRobot1DOF.c:60:6:RevRobot1DOF_init_Position_PID	2
+../Core/Src/RevRobot1DOF.c:71:6:RevRobot1DOF_init_Velocity_PID	2
+../Core/Src/RevRobot1DOF.c:82:6:RevRobot1DOF_update	9
+../Core/Src/RevRobot1DOF.c:138:6:RevRobot1DOF_spin_continuous_position	2
+../Core/Src/RevRobot1DOF.c:149:6:RevRobot1DOF_set_degree	1
+../Core/Src/RevRobot1DOF.c:158:6:RevRobot1DOF_set_RPM	1
+../Core/Src/RevRobot1DOF.c:165:6:RevRobot1DOF_set_power	1
